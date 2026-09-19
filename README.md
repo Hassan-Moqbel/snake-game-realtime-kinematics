@@ -26,7 +26,7 @@ Developing real-time interactive software outside of standard graphical game eng
 ```mermaid
 flowchart TD
     START(["Application Entry: main()"]) --> INIT[Initialize Grid Boundaries & Entities]
-    INIT --> LOOP_ENTRY{Game Loop Entry: `while(!gameOver)`}
+    INIT --> LOOP_ENTRY{"Game Loop Entry: while(!gameOver)"}
     
     LOOP_ENTRY --> POLL[Poll Asynchronous Input: `_kbhit()`]
     POLL --> DIR[Map Direction Vector dx, dy]
