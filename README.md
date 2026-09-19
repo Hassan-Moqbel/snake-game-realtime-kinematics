@@ -1,4 +1,4 @@
-# P21: Snake Game (Terminal Real-Time Game Loop)
+﻿# Snake Game (Terminal Real-Time Game Loop)
 
 ![C / C++](https://img.shields.io/badge/Language-C_%2F_C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
 ![Real-Time Game Loop](https://img.shields.io/badge/Architecture-Real--Time_Game_Loop-A8B9CC?style=for-the-badge)
@@ -25,7 +25,7 @@ Developing real-time interactive software outside of standard graphical game eng
 
 ```mermaid
 flowchart TD
-    START([Application Entry `main()`]) --> INIT[Initialize Grid Boundaries & Entities]
+    START(["Application Entry: main()"]) --> INIT[Initialize Grid Boundaries & Entities]
     INIT --> LOOP_ENTRY{Game Loop Entry: `while(!gameOver)`}
     
     LOOP_ENTRY --> POLL[Poll Asynchronous Input: `_kbhit()`]
