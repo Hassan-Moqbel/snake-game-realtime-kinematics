@@ -23,55 +23,55 @@ Developing real-time interactive software outside of standard graphical game eng
 
 ## Software Architecture Flowchart
 
-```mermaid
+mermaid
 flowchart TD
-    START(["Application Entry: main()"]) --> INIT[Initialize Grid Boundaries & Entities]
+    START(["Application Entry: main()"]) --> INIT["Initialize Grid Boundaries & Entities"]
     INIT --> LOOP_ENTRY{"Game Loop Entry: while(!gameOver)"}
     
-    LOOP_ENTRY --> POLL[Poll Asynchronous Input: `_kbhit()`]
-    POLL --> DIR[Map Direction Vector dx, dy]
+    LOOP_ENTRY --> POLL["Poll Asynchronous Input: _kbhit()"]
+    POLL --> DIR["Map Direction Vector dx, dy"]
     
-    DIR --> KINEMATICS[Update Head Position: P_head = P_head + V]
-    KINEMATICS --> BOUNDARY_CHK[Boundary & Tail Collision Check]
+    DIR --> KINEMATICS["Update Head Position: P_head = P_head + V"]
+    KINEMATICS --> BOUNDARY_CHK["Boundary & Tail Collision Check"]
     
-    BOUNDARY_CHK --> COLLISION{Collision Detected?}
-    COLLISION -->|Yes| GAME_OVER[Set `gameOver = true` \n& Terminate Loop]
-    COLLISION -->|No| FOOD_EVAL[Food Collision Evaluation]
+    BOUNDARY_CHK --> COLLISION{"Collision Detected?"}
+    COLLISION -->|Yes| GAME_OVER["Set gameOver = true \n& Terminate Loop"]
+    COLLISION -->|No| FOOD_EVAL["Food Collision Evaluation"]
     
-    FOOD_EVAL --> FOOD_CHK{Food Consumed?}
-    FOOD_CHK -->|Yes| SPAWN[Increment Score & Tail Length \nSpawn New Food]
-    FOOD_CHK -->|No| TAIL_SHIFT[Propagate Tail Segments: \nShift Array Coordinates]
+    FOOD_EVAL --> FOOD_CHK{"Food Consumed?"}
+    FOOD_CHK -->|Yes| SPAWN["Increment Score & Tail Length \nSpawn New Food"]
+    FOOD_CHK -->|No| TAIL_SHIFT["Propagate Tail Segments: \nShift Array Coordinates"]
     
     SPAWN --> RENDER
     TAIL_SHIFT --> RENDER
     
-    RENDER[Render Terminal Framebuffer] --> THROTTLE[Throttle CPU Clock: `Sleep(frameDelay)`]
+    RENDER["Render Terminal Framebuffer"] --> THROTTLE["Throttle CPU Clock: Sleep(frameDelay)"]
     THROTTLE --> LOOP_ENTRY
     
-    GAME_OVER --> FINAL_SCREEN[Game Over Screen: Print Final Score]
-    FINAL_SCREEN --> EXIT([Exit 0])
-```
+    GAME_OVER --> FINAL_SCREEN["Game Over Screen: Print Final Score"]
+    FINAL_SCREEN --> EXIT(["Exit 0"])
+
 
 ## Algorithmic & Kinematic Mathematical Models
 
 ### 1. Discrete 2D Cartesian Kinematics
-The spatial position of the head node advances sequentially at each discrete time step $\Delta t$ based on the normalized velocity vector $\vec{V}$:
-$$\vec{P}_{head}(t + \Delta t) = \vec{P}_{head}(t) + \vec{V} \cdot \Delta t$$
-*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1 \text{ grid unit}$).*
+The spatial position of the head node advances sequentially at each discrete time step $\Delta t$ based on the normalized velocity vector $\vec{"V"}$:
+$$\vec{"P"}_{"head"}(t + \Delta t) = \vec{"P"}_{"head"}(t) + \vec{"V"} \cdot \Delta t$$
+*(Where $\vec{"V"} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1 \text{" grid unit"}$).*
 
 ### 2. Tail Segment Recurrence Formulation
 To simulate trailing motion, the entire body array is shifted backwards by one index, effectively pulling the previous spatial history forward:
-$$\vec{P}_{tail}[i] = \vec{P}_{tail}[i - 1], \quad \forall i \in [L - 1, 1]$$
-$$\vec{P}_{tail}[0] = \vec{P}_{head}(t)$$
+$$\vec{"P"}_{"tail"}[i] = \vec{"P"}_{"tail"}[i - 1], \quad \forall i \in ["L - 1, 1"]$$
+$$\vec{"P"}_{"tail"}[0] = \vec{"P"}_{"head"}(t)$$
 *(Where $L$ is the current length of the tail).*
 
 ### 3. Collision Boundary & Self-Intersection Set
 A collision trigger evaluates to `True` if the head coordinate intersects the outer rigid walls ($W, H$) or its own tail array:
-$$\text{Collision} \iff x_{head} \in \{0, W\} \lor y_{head} \in \{0, H\} \lor \exists i \in [0, L - 1] : \vec{P}_{head} = \vec{P}_{tail}[i]$$
+$$\text{"Collision"} \iff x_{"head"} \in \{0, W\} \lor y_{"head"} \in \{0, H\} \lor \exists i \in ["0, L - 1"] : \vec{"P"}_{"head"} = \vec{"P"}_{"tail"}[i]$$
 
 ### 4. Algorithmic Complexity
-$$\text{Time Complexity per Tick: } \mathcal{O}(L) \quad (\text{linear shift of tail coordinates and collision scan})$$
-$$\text{Auxiliary Space Complexity: } \mathcal{O}(L_{max}) \quad (\text{static contiguous array allocation for coordinate history})$$
+$$\text{"Time Complexity per Tick: "} \mathcal{"O"}(L) \quad (\text{"linear shift of tail coordinates and collision scan"})$$
+$$\text{"Auxiliary Space Complexity: "} \mathcal{"O"}(L_{"max"}) \quad (\text{"static contiguous array allocation for coordinate history"})$$
 
 ## Build & Compilation Matrix
 To compile this project locally on a machine equipped with a MinGW/GCC toolchain, execute the following from the root directory:
@@ -93,7 +93,7 @@ g++ -O2 "src/project in language of c programming .cxx" -o bin/snake_game.exe
 ```
 
 ## Authentic Artifacts Catalog
-- **Source Code Implementation**: Available directly within [`src/`](src/).
+- **Source Code Implementation**: Available directly within ["`src/`"](src/).
 
 ## Engineering Audit & Tradeoffs
 - **Procedural Monolith vs. Object-Oriented Engines**: The current implementation is written as a single procedural file. For larger games, migrating to an Object-Oriented (OOP) Component-Entity System allows for clean compartmentalization of physics, rendering, and logic.
@@ -106,4 +106,4 @@ Mechatronics Engineer | Mechanical Design & CAD (SolidWorks & AutoCAD) | Prevent
 [GitHub](https://github.com/Hassan-Moqbel) · [Facebook](https://www.facebook.com/share/1BqxAgVjHi/) · [LinkedIn](https://www.linkedin.com/in/hassan-moqbel)
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the ["MIT License"](LICENSE).
