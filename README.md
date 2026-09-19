@@ -25,31 +25,31 @@ Developing real-time interactive software outside of standard graphical game eng
 
 ```mermaid
 flowchart TD
-    START(["Application Entry: main()"]) --> INIT["Initialize Grid Boundaries & Entities"]
+    START(["Application Entry: main()"]) --> INIT["Initialize Grid Boundaries and Entities"]
     INIT --> LOOP_ENTRY{"Game Loop Entry: while(!gameOver)"}
-    
+
     LOOP_ENTRY --> POLL["Poll Asynchronous Input: _kbhit()"]
-    POLL --> DIR["Map Direction Vector dx, dy"]
-    
+    POLL --> DIR["Map Direction Vector: dx, dy"]
+
     DIR --> KINEMATICS["Update Head Position: P_head = P_head + V"]
-    KINEMATICS --> BOUNDARY_CHK["Boundary & Tail Collision Check"]
-    
+    KINEMATICS --> BOUNDARY_CHK["Boundary and Tail Collision Check"]
+
     BOUNDARY_CHK --> COLLISION{"Collision Detected?"}
-    COLLISION -->|Yes| GAME_OVER["Set gameOver = true \n& Terminate Loop"]
+    COLLISION -->|Yes| GAME_OVER["Set gameOver = true<br/>and Terminate Loop"]
     COLLISION -->|No| FOOD_EVAL["Food Collision Evaluation"]
-    
+
     FOOD_EVAL --> FOOD_CHK{"Food Consumed?"}
-    FOOD_CHK -->|Yes| SPAWN["Increment Score & Tail Length \nSpawn New Food"]
-    FOOD_CHK -->|No| TAIL_SHIFT["Propagate Tail Segments: \nShift Array Coordinates"]
-    
-    SPAWN --> RENDER
-    TAIL_SHIFT --> RENDER
-    
-    RENDER["Render Terminal Framebuffer"] --> THROTTLE["Throttle CPU Clock: Sleep(frameDelay)"]
+    FOOD_CHK -->|Yes| SPAWN["Increment Score and Tail Length<br/>Spawn New Food"]
+    FOOD_CHK -->|No| TAIL_SHIFT["Propagate Tail Segments:<br/>Shift Array Coordinates"]
+
+    SPAWN --> DISP_FRAME["Render Terminal Framebuffer"]
+    TAIL_SHIFT --> DISP_FRAME
+
+    DISP_FRAME --> THROTTLE["Throttle CPU Clock: Sleep(frameDelay)"]
     THROTTLE --> LOOP_ENTRY
-    
+
     GAME_OVER --> FINAL_SCREEN["Game Over Screen: Print Final Score"]
-    FINAL_SCREEN --> EXIT(["Exit 0"])
+    FINAL_SCREEN --> TERMINATE(["Exit 0"])
 ```
 
 ## Algorithmic & Kinematic Mathematical Models
@@ -60,7 +60,7 @@ The spatial position of the head node advances sequentially at each discrete tim
 
 $$\vec{P}_{\text{head}}(t + \Delta t) = \vec{P}_{\text{head}}(t) + \vec{V} \cdot \Delta t$$
 
-*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1 \text{ grid unit}$)*
+Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1\text{ grid unit}$.
 
 ### 2. Tail Segment Recurrence Formulation
 
@@ -70,7 +70,7 @@ $$\vec{P}_{\text{tail}}[i] = \vec{P}_{\text{tail}}[i - 1], \quad \forall i \in [
 
 $$\vec{P}_{\text{tail}}[0] = \vec{P}_{\text{head}}(t)$$
 
-*(Where $L$ is the current length of the tail)*
+Where $L$ is the current length of the tail.
 
 ### 3. Collision Boundary & Self-Intersection Set
 
