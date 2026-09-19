@@ -55,23 +55,33 @@ flowchart TD
 ## Algorithmic & Kinematic Mathematical Models
 
 ### 1. Discrete 2D Cartesian Kinematics
-The spatial position of the head node advances sequentially at each discrete time step $\Delta t$based on the normalized velocity vector$\vec{V}$:
-$$\vec{P}_{head}(t + \Delta t) = \vec{P}_{head}(t) + \vec{V} \cdot \Delta t$$
-*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$and$\Delta t = 1 \text{ grid unit}$).*
+
+The spatial position of the head node advances sequentially at each discrete time step $\Delta t$ based on the normalized velocity vector $\vec{V}$:
+
+$\vec{P}_{\text{head}}(t + \Delta t) = \vec{P}_{\text{head}}(t) + \vec{V} \cdot \Delta t$
+
+*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1 \text{ grid unit}$)*
 
 ### 2. Tail Segment Recurrence Formulation
+
 To simulate trailing motion, the entire body array is shifted backwards by one index, effectively pulling the previous spatial history forward:
-$$\vec{P}_{tail}[i] = \vec{P}_{tail}[i - 1], \quad \forall i \in [L - 1, 1]$$
-$$\vec{P}_{tail}[0] = \vec{P}_{head}(t)$$
-*(Where $L$ is the current length of the tail).*
+
+$\vec{P}_{\text{tail}}[i] = \vec{P}_{\text{tail}}[i - 1], \quad \forall i \in [L - 1, 1]$
+
+$\vec{P}_{\text{tail}}[0] = \vec{P}_{\text{head}}(t)$
+
+*(Where $L$ is the current length of the tail)*
 
 ### 3. Collision Boundary & Self-Intersection Set
-A collision trigger evaluates to `True` if the head coordinate intersects the outer rigid walls ($W, H$) or its own tail array:
-$$\text{Collision} \iff x_{head} \in \{0, W\} \lor y_{head} \in \{0, H\} \lor \exists i \in [0, L - 1] : \vec{P}_{head} = \vec{P}_{tail}[i]$$
+
+A collision trigger evaluates to `True` if the head coordinate intersects the outer rigid walls $(W, H)$ or its own tail array:
+
+$\text{Collision} \iff x_{\text{head}} \in \{0, W\} \lor y_{\text{head}} \in \{0, H\} \lor \exists i \in [0, L - 1] : \vec{P}_{\text{head}} = \vec{P}_{\text{tail}}[i]$
 
 ### 4. Algorithmic Complexity
-$$\text{Time Complexity per Tick: } \mathcal{O}(L) \quad (\text{linear shift of tail coordinates and collision scan})$$
-$$\text{Auxiliary Space Complexity: } \mathcal{O}(L_{max}) \quad (\text{static contiguous array allocation for coordinate history})$$
+
+* **Time Complexity per Tick:** $\mathcal{O}(L)$ *(linear shift of tail coordinates and collision scan)*
+* **Auxiliary Space Complexity:** $\mathcal{O}(L_{\max})$ *(static contiguous array allocation for coordinate history)*
 
 ## Build & Compilation Matrix
 To compile this project locally on a machine equipped with a MinGW/GCC toolchain, execute the following from the root directory:
