@@ -55,9 +55,9 @@ flowchart TD
 ## Algorithmic & Kinematic Mathematical Models
 
 ### 1. Discrete 2D Cartesian Kinematics
-The spatial position of the head node advances sequentially at each discrete time step $\Delta t$ based on the normalized velocity vector $\vec{V}$:
+The spatial position of the head node advances sequentially at each discrete time step $\Delta t$based on the normalized velocity vector$\vec{V}$:
 $$\vec{P}_{head}(t + \Delta t) = \vec{P}_{head}(t) + \vec{V} \cdot \Delta t$$
-*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$ and $\Delta t = 1 \text{ grid unit}$).*
+*(Where $\vec{V} \in \{(0, 1), (0, -1), (1, 0), (-1, 0)\}$and$\Delta t = 1 \text{ grid unit}$).*
 
 ### 2. Tail Segment Recurrence Formulation
 To simulate trailing motion, the entire body array is shifted backwards by one index, effectively pulling the previous spatial history forward:
